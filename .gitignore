@@ -1,0 +1,4 @@
+node_modules
+privatekey.pem
+publickey.pem
+.env
