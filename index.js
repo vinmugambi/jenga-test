@@ -6,8 +6,8 @@ const fs = require("fs");
 
 function concatenate(requestData) {
   let str = "";
-  if (requestData.accountId) str = str.concat(requestData.accountId);
   if (requestData.countryCode) str = str.concat(requestData.countryCode);
+  if (requestData.accountId) str = str.concat(requestData.accountId);
   return str;
 }
 
