@@ -14,8 +14,7 @@ const server = http.createServer((req, res) => {
     },
     function (error) {
       res.statusCode = 500;
-      console.log(error);
-      res.end("server error")
+      res.end(JSON.stringify(error));
     }
   );
 });

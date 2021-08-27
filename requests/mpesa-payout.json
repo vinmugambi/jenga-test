@@ -1,0 +1,22 @@
+{
+  "source": {
+    "countryCode": "KE",
+    "accountNumber": "1100161720541",
+    "name": "Peris Wanjiru"
+  },
+  "destination": {
+    "type": "mobile",
+    "countryCode": "KE",
+    "name": "Vincent Mugambi",
+    "mobileNumber": "0703784709",
+    "walletName": "Mpesa"
+  },
+  "transfer": {
+    "type": "MobileWallet",
+    "amount": "20",
+    "currencyCode": "KES",
+    "reference": "096024326791",
+    "date": "2021-08-27",
+    "description": "Send to own MPESA"
+  }
+}

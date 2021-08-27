@@ -3,13 +3,32 @@ const axios = require("axios");
 const qs = require("querystring");
 const crypto = require("crypto");
 const fs = require("fs");
+const mpesaPayout = require("./requests/mpesa-payout.json");
+const idSearch = require("./requests/id-search.json");
 
 function concatenate(requestData) {
   let str = "";
   if (requestData.countryCode) str = str.concat(requestData.countryCode);
   if (requestData.accountId) str = str.concat(requestData.accountId);
+
   return str;
 }
+
+function concatForBalances() {
+  return this.accountId.toString() + this.countryCode + this.date;
+}
+
+function concatForFullStatement() {
+  return this.accountNumber.toString() + this.countryCode + this.toDate;
+}
+
+let fullStatementRequest = {
+  accountNumber: "1100161720541",
+  countryCode: "KE",
+  fromDate: "2021-08-20",
+  toDate: "2021-08-26",
+  limit: "10",
+};
 
 function sign(message) {
   const sign = crypto.createSign("SHA256");
@@ -90,9 +109,9 @@ exports.queryAccountBalance = async function () {
     });
   } catch (error) {
     if (error.response) {
-      return Promise.reject({ type: "ResponseError", error: error.toJSON() });
+      return Promise.reject({ type: "ResponseError", error: error });
     } else if (error.request) {
-      return Promise.reject({ type: "RequestError", error: error.toJSON() });
+      return Promise.reject({ type: "RequestError", error: error });
     } else {
       return Promise.reject({ type: "UnknownError", error: error.message });
     }
@@ -100,3 +119,25 @@ exports.queryAccountBalance = async function () {
 
   return balance;
 };
+
+function concatForMpesaPayout() {
+  return (
+    this.transfer.amount.toString() +
+    this.transfer.currencyCode +
+    this.transfer.reference +
+    this.source.accountNumber
+  );
+}
+
+var merchantCode = process.env.JENGA_USERNAME;
+
+function concatforIdSearch() {
+  return merchantCode.toString() + this.identity.documentNumber + this.identity.countryCode;
+}
+
+function main() {
+  // console.log(sign(concatForMpesaPayout.call(mpesaPayout)));
+  console.log(sign(concatForMpesaPayout.call(mpesaPayout)));
+}
+
+main();
